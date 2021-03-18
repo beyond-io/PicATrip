@@ -41,12 +41,11 @@ language
 
 ## Team members
   #### Red Hat Open Source Course: Beyond05 - Team 2:
-   **1.** Leead Arbetman
-   **2.** Amir Miller
-   **3.** Shoval Ovadia
-   **4.** Nadav Spinco
-   **5.** Ma'ayan Hadar
-   **6.** Shira Ostrinsky
+- Leead Arbetman
+- Amir Miller
+- Shoval Ovadia
+- Nadav Spinco
+- Ma'ayan Hadar
 
 ## Contributing
 #### For contributing please follow the instructions below:
@@ -55,4 +54,5 @@ language
    3. **Commit** changes to your own branch
    4. **push your work back up to your forked repo**
    5. Submit a Pull Request so that we can review your changes
-NOTE: Be sure to fetch and merge the latest changes from the "upstream" repository before making a pull request!
+   
+ **NOTE:** Be sure to fetch and merge the latest changes from the "upstream" repository before making a pull request!
