@@ -54,5 +54,8 @@ language
    3. **Commit** changes to your own branch
    4. **push your work back up to your forked repo**
    5. Submit a Pull Request so that we can review your changes
-   
+
  **NOTE:** Be sure to fetch and merge the latest changes from the "upstream" repository before making a pull request!
+
+### Link to a Google Doc that contains our project structure:
+> https://docs.google.com/document/d/1yIkANtngk0St3hlGIb8Ed-mfT6NJMJJuPxsbtf5FiO8/edit?usp=sharing
