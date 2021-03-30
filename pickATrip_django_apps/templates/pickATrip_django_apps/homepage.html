@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-<link rel="manifest" href="favicon/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
-<title>pickATrip</title>
-</head>
-
-<body>
+{% extends "pickATrip_django_apps/base.html"%}
+{% block content %}
 	<h1>Pick a trip</h1>
 	<h2>picATrip is a web platform for sharing experiences from trips in a form of photos</h2>
 	<label for="membersList">Team members: </label>
@@ -21,8 +9,5 @@
 		<li>Leead Arbetman</li>
 		<li>Ma'ayan Hadar</li>
 		<li>Nadav Spinco</li>
-		<li>Shira Ostrinsky</li>
 	</ul>
-</body>
-
-</html>
+{% endblock content %}
