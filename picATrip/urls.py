@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from pickATrip_django_apps import views
 from users import views as user_views
 from Post import views as post_views
@@ -30,3 +32,6 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('postsList/', post_views.PostListView.as_view(), name='view posts')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
