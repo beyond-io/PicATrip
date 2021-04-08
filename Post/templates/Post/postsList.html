@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Post List</title>
+</head>
+
+<body>
+	{% for post in posts %}
+		<h1>Author: {{post.nameOfPoster}}</h1>
+		<p>Place name: {{post.nameOfLocation}}</p>
+		<p>URL: {{post.photoURL}}</p>
+		<p>Description: {{post.Description}} </p>
+
+	{% endfor %}	
+</body>
+</html>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'pickATrip_django_apps.apps.pickATrip_django_appsConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'Post.apps.PostConfig'
 ]
 
 MIDDLEWARE = [
