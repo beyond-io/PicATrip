@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'pickATrip_django_apps.apps.pickATrip_django_appsConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
-    'Post.apps.PostConfig'
+    'Post.apps.PostConfig',
+    'commenting_system.apps.CommentingSystemConfig',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'homepage'
 LOGIN_URL = 'login'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
