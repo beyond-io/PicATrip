@@ -22,11 +22,22 @@ class ListAdminMixin(object):
         super(ListAdminMixin, self).__init__(general_model, admin_site)
 
 
+def is_related_to_social_signing(suspected_model):
+    return (
+        suspected_model._meta.model.__name__ == "Site"
+        or suspected_model._meta.model.__name__ == "EmailAddress"
+        or suspected_model._meta.model.__name__ == "SocialApp"
+        or suspected_model._meta.model.__name__ == "SocialToken"
+        or suspected_model._meta.model.__name__ == "SocialAccount"
+    )
+
+
 # Register all other models automatically - should stay last in file.
 models = apps.get_models()
 for model in models:
     admin_class = type('AdminClass', (ListAdminMixin, admin.ModelAdmin), {})
-    try:
-        admin.site.register(model, admin_class)
-    except admin.sites.AlreadyRegistered:
-        pass
+    if not is_related_to_social_signing(model):
+        try:
+            admin.site.register(model, admin_class)
+        except admin.sites.AlreadyRegistered:
+            pass

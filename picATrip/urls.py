@@ -18,7 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from pickATrip_django_apps import views
+from django.views.generic import TemplateView
 from users import views as user_views
 from Post import views as post_views
 
@@ -40,6 +40,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('postList/', include('Post.urls'), name='postList'),
     path('createPost/', post_views.CreateNewPost, name='createPost'),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
