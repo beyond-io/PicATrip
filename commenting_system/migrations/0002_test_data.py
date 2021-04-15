@@ -1,6 +1,6 @@
 from django.db import migrations, transaction
 from django.contrib.auth.models import User
-from Post.models import post
+from Post.models import Post
 
 
 def generate_body_list():
@@ -33,7 +33,7 @@ def generate_post(ind):
     description_formatted = 'This is my #{} favorite place! chill vibes and beautiful sea.'.format(
         ind + 1)
 
-    return post(nameOfPoster=author_choices[ind], nameOfLocation=place_choices[ind],
+    return Post(nameOfPoster=author_choices[ind], nameOfLocation=place_choices[ind],
                 photoURL=URL_formatted, Description=description_formatted)
 
 
@@ -57,9 +57,9 @@ class Migration(migrations.Migration):
                 tag_values = ["Recommended", "Want to go",
                               "Quiet", "Crowded", "Chance to meet"]
                 for i, tag in enumerate(tag_values):
-                    generated_post = generate_post(i)
-                    generated_post.save()
-                    Comment(user=user, body=body, commented_post=generated_post,
+                    post = generate_post(i)
+                    post.save()
+                    Comment(user=user, body=body, post=post,
                             tag=tag, active=True).save()
 
     operations = [

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from Post.models import post
+from Post.models import Post
 
 
 class Comment(models.Model):
@@ -11,15 +11,15 @@ class Comment(models.Model):
         CROWDED = "Crowded", "Crowded Place"
         CHANCE_TO_MEET = "Chance to meet"
 
-    commented_post = models.ForeignKey(
-        post, on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name='comments', null=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name='comments')
+                             on_delete=models.CASCADE, related_name='comments', null=False)
     body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True, null=False)
     tag = models.CharField(choices=Tag.choices,
                            max_length=20, blank=True, null=True)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=False, null=False)
 
     class Meta:
         ordering = ['-created_on']

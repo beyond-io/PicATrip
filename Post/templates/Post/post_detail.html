@@ -1,0 +1,57 @@
+{% extends "pickATrip_django_apps/base.html" %}
+{% block content %}
+{% load post_extra %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 card mb4 mt3 left top">
+            <div class="card-body">
+                <h1>{% block title %} {{ post.photoURL }} {% endblock title %}</h1>
+                <p class=" text-muted">{{ post.nameOfPoster }}</p>
+                <p class=" text-muted">{{ post.nameOfLocation }}</p>
+                <p class="card-text "> {{ post.Description }} </p>
+            </div>
+        </div>
+
+        <div class="colmd-8 card mb-4 mt-3 ">
+            <div class="card-body">
+                <!-- comments -->
+                <h2> {{ comments.count }} comments</h2>
+
+                {% for comment in comments %}
+                <div class="comments" style="padding: 10px;">
+                <p class="font-weight-bold">
+                    {{ comment.user.username }}
+                    <span class=" text-muted font-weight-normal">
+                        {{ comment.created_on }}
+                    </span>
+                    <br></br>
+                    {% if comment.tag %}
+                    <span class=" badge rounded-pill {{ tag_to_badge_type| get_item:comment.tag }}" text-wrap style="width: 6rem;">
+                        {{ comment.tag }}
+                    </span>
+                    {% endif %}
+                </p>
+                {{ comment.body | linebreaks }}
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8 card mb-4 mt-3 ">
+            <div class="card-body">
+                {% if new_comment %}
+                <div class="alert alert-success" role="alert">
+                    Your comment is awaiting moderation
+                </div>
+                {% else %}
+                <h2>Leave a comment</h2>
+                <form method="POST" style="margin-top: 1.3em;">
+                    {% csrf_token %}
+                    {{ comment_form.as_p}}
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

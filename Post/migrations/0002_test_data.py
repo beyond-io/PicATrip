@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
     ]
 
     def generate_data(apps, schema_editor):
-        from Post.models import post
+        from Post.models import Post
 
         p1_Author = 'Shoval'
         p1_Place = 'Eilat'
@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
         p2_Description = 'Beautiful place.'
 
         with transaction.atomic():
-            post(nameOfPoster=p1_Author, nameOfLocation=p1_Place, photoURL=p1_URL, Description=p1_Description).save()
-            post(nameOfPoster=p2_Author, nameOfLocation=p2_Place, photoURL=p2_URL, Description=p2_Description).save()
+            Post(nameOfPoster=p1_Author, nameOfLocation=p1_Place, photoURL=p1_URL, Description=p1_Description).save()
+            Post(nameOfPoster=p2_Author, nameOfLocation=p2_Place, photoURL=p2_URL, Description=p2_Description).save()
 
     operations = [
         migrations.RunPython(generate_data)
