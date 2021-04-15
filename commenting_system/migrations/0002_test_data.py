@@ -54,13 +54,13 @@ class Migration(migrations.Migration):
 
         with transaction.atomic():
             for user, body in test_data:
-                tag_values = ["Recommended", "Want to go",
-                              "Quiet", "Crowded", "Chance to meet"]
-                for i, tag in enumerate(tag_values):
+                label_values = ["Recommended", "Want to go",
+                                "Quiet", "Crowded", "Chance to meet"]
+                for i, label in enumerate(label_values):
                     post = generate_post(i)
                     post.save()
                     Comment(user=user, body=body, post=post,
-                            tag=tag, active=True).save()
+                            label=label, active=True).save()
 
     operations = [
         migrations.RunPython(generate_data)

@@ -4,7 +4,7 @@ from Post.models import Post
 
 
 class Comment(models.Model):
-    class Tag(models.TextChoices):
+    class Label(models.TextChoices):
         RECOMMENDED = "Recommended"
         WANT_TO_GO = "Want to go"
         QUIET = "Quiet", "Quiet Place"
@@ -17,8 +17,8 @@ class Comment(models.Model):
                              on_delete=models.CASCADE, related_name='comments', null=False)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True, null=False)
-    tag = models.CharField(choices=Tag.choices,
-                           max_length=20, blank=True, null=True)
+    label = models.CharField(choices=Label.choices,
+                             max_length=20, blank=True, null=True)
     active = models.BooleanField(default=False, null=False)
 
     class Meta:

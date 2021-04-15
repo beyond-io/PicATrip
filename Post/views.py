@@ -2,7 +2,6 @@ from django.views.generic import ListView
 from commenting_system.forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 from .models import Post
-from commenting_system.models import Comment
 from django.contrib.auth.decorators import login_required
 
 
@@ -38,9 +37,9 @@ def post_detail(request, post_id):
                                                      'comments': comments,
                                                      'new_comment': new_comment,
                                                      'comment_form': comment_form,
-                                                     'tag_to_badge_type': {"Recommended": "bg-success",
-                                                                           "Quiet": "bg-secondary",
-                                                                           "Crowded": "bg-warning",
-                                                                           "Chance to meet": "bg-primary",
-                                                                           "Want to go": "bg-info"}
+                                                     'label_to_badge_type': {"Recommended": "bg-success",
+                                                                             "Quiet": "bg-secondary",
+                                                                             "Crowded": "bg-warning",
+                                                                             "Chance to meet": "bg-primary",
+                                                                             "Want to go": "bg-info"}
                                                      })
