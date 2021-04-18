@@ -42,7 +42,6 @@ language
 ## Team members
   #### Red Hat Open Source Course: Beyond05 - Team 2:
 - Leead Arbetman
-- Amir Miller
 - Shoval Ovadia
 - Nadav Spinco
 - Ma'ayan Hadar
