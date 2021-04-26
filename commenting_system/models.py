@@ -31,4 +31,7 @@ class Comment(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.user)
+        return f'Comment {self.body} by {self.user.username} at {self.created_on} using label:{self.label}'
+
+    def approve(self):
+        self.active = True

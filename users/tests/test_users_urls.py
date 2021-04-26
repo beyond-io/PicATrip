@@ -4,7 +4,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 
 class TestUrls:
-
     def test_register_url_is_resolved(self):
         url = reverse('register')
         assert resolve(url).func == register
