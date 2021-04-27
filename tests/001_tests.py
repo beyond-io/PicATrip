@@ -14,5 +14,5 @@ class TestProfile:
             ('Test-user-comments1'),
             ('Test-user-comments2'),
             ('Test-user-profile3'),
-            ('Test-user-profile4')
+            ('Test-user-profile4'),
         ]

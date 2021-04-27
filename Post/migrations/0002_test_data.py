@@ -20,9 +20,17 @@ class Migration(migrations.Migration):
         p2_Description = 'Beautiful place.'
 
         with transaction.atomic():
-            Post(nameOfPoster=p1_Author, nameOfLocation=p1_Place, photoURL=p1_URL, Description=p1_Description).save()
-            Post(nameOfPoster=p2_Author, nameOfLocation=p2_Place, photoURL=p2_URL, Description=p2_Description).save()
+            Post(
+                nameOfPoster=p1_Author,
+                nameOfLocation=p1_Place,
+                photoURL=p1_URL,
+                Description=p1_Description,
+            ).save()
+            Post(
+                nameOfPoster=p2_Author,
+                nameOfLocation=p2_Place,
+                photoURL=p2_URL,
+                Description=p2_Description,
+            ).save()
 
-    operations = [
-        migrations.RunPython(generate_data)
-    ]
+    operations = [migrations.RunPython(generate_data)]

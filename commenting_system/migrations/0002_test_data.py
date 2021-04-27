@@ -13,18 +13,29 @@ class Migration(migrations.Migration):
         from commenting_system.models import Comment
 
         users_list = [
-            User.objects.create_user('Test-user-comments1', 'Test3@gmail.com', 'password777'),
-            User.objects.create_user('Test-user-comments2', 'Test4@gmail.com', 'password222')
+            User.objects.create_user(
+                'Test-user-comments1', 'Test3@gmail.com', 'password777'
+            ),
+            User.objects.create_user(
+                'Test-user-comments2', 'Test4@gmail.com', 'password222'
+            ),
         ]
 
-        body_comments_list = [
-            ('First comment test'),
-            ('Second comment test')
-        ]
+        body_comments_list = [('First comment test'), ('Second comment test')]
 
         Post_list = [
-            Post(nameOfPoster='Leead', nameOfLocation='Eilat', photoURL='test_1.com', Description='Perfect!'),
-            Post(nameOfPoster='Shoval', nameOfLocation='Tel-Aviv', photoURL='test_2.com', Description='This is nice'),
+            Post(
+                nameOfPoster='Leead',
+                nameOfLocation='Eilat',
+                photoURL='test_1.com',
+                Description='Perfect!',
+            ),
+            Post(
+                nameOfPoster='Shoval',
+                nameOfLocation='Tel-Aviv',
+                photoURL='test_2.com',
+                Description='This is nice',
+            ),
         ]
 
         test_data = list(zip(users_list, body_comments_list, Post_list))
@@ -34,9 +45,8 @@ class Migration(migrations.Migration):
             for user, body, post in test_data:
                 user.save()
                 post.save()
-                Comment(user=user, body=body, post=post,
-                        label="Recommended", active=True).save()
+                Comment(
+                    user=user, body=body, post=post, label="Recommended", active=True
+                ).save()
 
-    operations = [
-        migrations.RunPython(generate_data)
-    ]
+    operations = [migrations.RunPython(generate_data)]

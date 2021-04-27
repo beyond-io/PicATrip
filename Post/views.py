@@ -33,13 +33,20 @@ def post_detail(request, post_id):
             comment_form = CommentForm()
     else:
         comment_form = CommentForm()
-    return render(request, 'Post/post_detail.html', {'post': post,
-                                                     'comments': comments,
-                                                     'new_comment': new_comment,
-                                                     'comment_form': comment_form,
-                                                     'label_to_badge_type': {"Recommended": "bg-success",
-                                                                             "Quiet": "bg-secondary",
-                                                                             "Crowded": "bg-warning",
-                                                                             "Chance to meet": "bg-primary",
-                                                                             "Want to go": "bg-info"}
-                                                     })
+    return render(
+        request,
+        'Post/post_detail.html',
+        {
+            'post': post,
+            'comments': comments,
+            'new_comment': new_comment,
+            'comment_form': comment_form,
+            'label_to_badge_type': {
+                "Recommended": "bg-success",
+                "Quiet": "bg-secondary",
+                "Crowded": "bg-warning",
+                "Chance to meet": "bg-primary",
+                "Want to go": "bg-info",
+            },
+        },
+    )

@@ -10,8 +10,12 @@ class Migration(migrations.Migration):
 
     def generate_data(apps, schema_editor):
         users_list = [
-            User.objects.create_user('Test-user-profile3', 'Test@gmail.com', 'password777'),
-            User.objects.create_user('Test-user-profile4', 'Test2@gmail.com', 'password222')
+            User.objects.create_user(
+                'Test-user-profile3', 'Test@gmail.com', 'password777'
+            ),
+            User.objects.create_user(
+                'Test-user-profile4', 'Test2@gmail.com', 'password222'
+            ),
         ]
 
         with transaction.atomic():
