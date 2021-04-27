@@ -18,23 +18,49 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comment',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('body', models.TextField()),
                 ('created_on', models.DateTimeField(auto_now_add=True)),
-                ('label', models.CharField(blank=True, choices=[('Recommended', 'Recommended'),
-                                                                ('Want to go', 'Want To Go'),
-                                                                ('Quiet', 'Quiet Place'),
-                                                                ('Crowded', 'Crowded Place'),
-                                                                ('Chance to meet', 'Chance To Meet')],
-                                           max_length=20,
-                                           null=True)),
+                (
+                    'label',
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ('Recommended', 'Recommended'),
+                            ('Want to go', 'Want To Go'),
+                            ('Quiet', 'Quiet Place'),
+                            ('Crowded', 'Crowded Place'),
+                            ('Chance to meet', 'Chance To Meet'),
+                        ],
+                        max_length=20,
+                        null=True,
+                    ),
+                ),
                 ('active', models.BooleanField(default=False)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                           related_name='comments',
-                                           to='Post.post')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                           related_name='comments',
-                                           to=settings.AUTH_USER_MODEL)),
+                (
+                    'post',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='comments',
+                        to='Post.post',
+                    ),
+                ),
+                (
+                    'user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='comments',
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
                 'ordering': ['-created_on'],

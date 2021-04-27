@@ -18,8 +18,7 @@ class CommentAdmin(admin.ModelAdmin):
 # for viewing models registration fields
 class ListAdminMixin(object):
     def __init__(self, general_model, admin_site):
-        self.list_display = [
-            field.name for field in general_model._meta.fields]
+        self.list_display = [field.name for field in general_model._meta.fields]
         super(ListAdminMixin, self).__init__(general_model, admin_site)
 
 

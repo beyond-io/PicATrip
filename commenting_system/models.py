@@ -12,13 +12,19 @@ class Comment(models.Model):
         CHANCE_TO_MEET = "Chance to meet"
 
     post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='comments', null=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name='comments', null=False)
+        Post, on_delete=models.CASCADE, related_name='comments', null=False
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        null=False,
+    )
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True, null=False)
-    label = models.CharField(choices=Label.choices,
-                             max_length=20, blank=True, null=True)
+    label = models.CharField(
+        choices=Label.choices, max_length=20, blank=True, null=True
+    )
     active = models.BooleanField(default=False, null=False)
 
     class Meta:
