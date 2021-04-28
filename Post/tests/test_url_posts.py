@@ -3,7 +3,6 @@ from Post.views import PostListView, post_detail
 
 
 class TestUrls:
-
     def test_postList_url_is_resolved(self):
         url = reverse('view posts')
         assert resolve(url).func.view_class == PostListView
