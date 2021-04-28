@@ -2,9 +2,9 @@
 {% block content %}
 
 	{% for post in posts %}
-		<h1>Author: {{post.nameOfPoster}}</h1>
-		<p>Place name: {{post.nameOfLocation}}</p>
-		<p>URL: {{post.photoURL}}</p>
+		<h1>{{post.nameOfLocation}}</h1>
+		<img src= {{post.photoURL}} alt="photo of {{post.nameOfLocation}}" style="width:300px;height:300px;">
+		<p>Author: {{post.nameOfPoster}}</p>
 		<p>Description: {{post.Description}} </p>
 
 	{% endfor %}	
