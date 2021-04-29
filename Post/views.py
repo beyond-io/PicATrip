@@ -1,8 +1,10 @@
 from django.views.generic import ListView
 from commenting_system.forms import CommentForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from django.contrib.auth.decorators import login_required
+from .forms import CreatePostForm
+from django.contrib import messages
 
 
 class PostListView(ListView):
@@ -12,7 +14,20 @@ class PostListView(ListView):
 
 
 @login_required
+def CreateNewPost(request):
+    form = CreatePostForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'The post has been created')
+        return redirect('/postList/')
+    else:
+        form = CreatePostForm()
+    return render(request, 'Post/createPost.html', {'form': form})
+
+
+@login_required
 def post_detail(request, post_id):
+
     post = get_object_or_404(Post, pk=post_id)
     # Using only the last 5 (approved) comments (at most- if exist)
     comments = post.comments.filter(active=True).order_by("-created_on")[:5]
