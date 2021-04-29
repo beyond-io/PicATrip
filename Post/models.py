@@ -9,3 +9,7 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.nameOfPoster} traveled {self.nameOfLocation} and wrote: {self.Description}'
+
+    @classmethod
+    def all_posts(cls):
+        return cls.objects.all()
