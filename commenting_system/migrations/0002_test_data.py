@@ -26,15 +26,15 @@ class Migration(migrations.Migration):
         Post_list = [
             Post(
                 nameOfPoster='Leead',
-                nameOfLocation='Eilat',
-                photoURL='test_1.com',
+                nameOfLocation='Sea of Galilee',
+                photoURL="https://www.shappo.co.il/Resize_Image.aspx?maxsize=400&img=/pictures/cards/big/36630.jpg",
                 Description='Perfect!',
             ),
             Post(
                 nameOfPoster='Shoval',
-                nameOfLocation='Tel-Aviv',
-                photoURL='test_2.com',
-                Description='This is nice',
+                nameOfLocation="`En Yorqe`am",
+                photoURL="https://cdn1.sipurderech.co.il/1200x800_fit_90/1403218722_121.jpeg",
+                Description='Really nice place',
             ),
         ]
 
