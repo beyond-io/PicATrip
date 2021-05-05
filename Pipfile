@@ -13,6 +13,7 @@ black = "*"
 django = "*"
 django-crispy-forms = "*"
 pillow = "*"
+django-cleanup = "*"
 
 [requires]
 python_version = "3.8"
