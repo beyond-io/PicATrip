@@ -72,3 +72,11 @@ def test_no_authenticated_client(client, django_user_model):
     response = client.get('/profile/')
     assert response.status_code == 302
     assert response.url == '/login/?next=/profile/'
+
+
+@pytest.mark.django_db
+def test_update_user(user):
+    user.username = 'updated-username'
+    assert user.username == 'updated-username'
+    user.email = 'update@mail.com'
+    assert user.email == 'update@mail.com'
