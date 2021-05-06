@@ -16,3 +16,8 @@ class TestProfile:
             ('Test-user-profile3'),
             ('Test-user-profile4'),
         ]
+
+    def test_profile_size(cls):
+        profile_list = Profile.objects.all()
+        for profile in profile_list:
+            assert profile.img.height <= 300 and profile.img.width <= 300

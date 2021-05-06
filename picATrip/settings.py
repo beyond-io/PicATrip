@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'pickATrip_django_apps.apps.pickATrip_django_appsConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
-    'django_cleanup',
+    'django_cleanup.apps.CleanupConfig',
     'Post.apps.PostConfig',
     'commenting_system.apps.CommentingSystemConfig',
 ]
