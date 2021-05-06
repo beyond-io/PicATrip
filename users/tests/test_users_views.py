@@ -27,11 +27,13 @@ class TestViews:
         response = client.get(reverse('profile'))
         assert response.status_code == 302
 
+    @pytest.mark.django_db
     def test_login_GET(self, client):
         response = client.get(reverse('login'))
         assert response.status_code == 200
         assertTemplateUsed(response, 'users/login.html')
 
+    @pytest.mark.django_db
     def test_logout_GET(self, client):
         response = client.get(reverse('logout'))
         assert response.status_code == 200
