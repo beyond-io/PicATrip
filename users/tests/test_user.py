@@ -1,6 +1,8 @@
 import pytest
 import uuid
 from django.contrib.auth.models import User
+from django.test import TestCase
+from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 
 
 @pytest.fixture
@@ -74,9 +76,33 @@ def test_no_authenticated_client(client, django_user_model):
     assert response.url == '/login/?next=/profile/'
 
 
-@pytest.mark.django_db
-def test_update_user(user):
-    user.username = 'updated-username'
-    assert user.username == 'updated-username'
-    user.email = 'update@mail.com'
-    assert user.email == 'update@mail.com'
+def test_update_user(client, django_user_model):
+    username = "Test-user"
+    password = "123456"
+    django_user_model.objects.create_user(username=username, password=password)
+    client.username = 'updated-username'
+    assert client.username == 'updated-username'
+    client.email = 'update@mail.com'
+    assert client.email == 'update@mail.com'
+
+
+class TestForms(TestCase):
+    def test_UserRegistrationForm(self):
+        form_data = {
+            'username': 'username',
+            'email': 'Test@example.com',
+            'password1': 'test-password',
+            'password2': 'test-password',
+        }
+        form = UserRegistrationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_UserUpdateForm(self):
+        form_data = {'username': 'username', 'email': 'Test@example.com'}
+        form = UserUpdateForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_ProfileUpdateForm(self):
+        form_data = {'dob': '1995-04-08', 'image': 'profile_pics/profile_picture.jpg'}
+        form = ProfileUpdateForm(data=form_data)
+        self.assertTrue(form.is_valid())
