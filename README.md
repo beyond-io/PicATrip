@@ -6,7 +6,7 @@
 
 ### **Who are we?**
 
-   **picATrip** is a web platform for **sharing experiences from _trips_** in a form of **photos** based
+   **PicATrip** is a web platform for **sharing experiences from _trips_** in a form of **photos** based
    on various parameters as:
 * Location
 * Duration time
