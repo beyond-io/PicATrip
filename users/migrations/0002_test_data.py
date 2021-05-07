@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('auth', '__latest__'),
         ('users', '0001_initial'),
     ]
 
