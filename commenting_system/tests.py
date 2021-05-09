@@ -42,7 +42,7 @@ def post_list(user_list, place_choices):
 
     return [
         Post(
-            nameOfPoster=user_list[i],
+            user=user_list[i],
             nameOfLocation=place_choices[i],
             photoURL=f'www.test_{i + 1}.com',
             Description=f'This is my #{i + 1} favorite place! chill vibes and beautiful view.',
@@ -128,13 +128,9 @@ def test_remove_comment(parameters_list, user_list, post_list):
         User.objects.get(username=user.username) is not None for user in user_list
     )
     assert all(User.objects.get(username=user.username) == user for user in user_list)
+    assert all(Post.objects.get(user=user) is not None for user in user_list)
     assert all(
-        Post.objects.get(nameOfPoster=user.username) is not None for user in user_list
-    )
-    assert all(
-        Post.objects.get(nameOfPoster=user.username) == post
-        for post in post_list
-        if post.nameOfPoster == user.username
+        Post.objects.get(user=user) == post for post in post_list if post.user == user
     )
     teardown_remove_comment()
 

@@ -25,13 +25,11 @@ class Migration(migrations.Migration):
 
         Post_list = [
             Post(
-                nameOfPoster='Leead',
                 nameOfLocation='Sea of Galilee',
                 photoURL="https://www.shappo.co.il/Resize_Image.aspx?maxsize=400&img=/pictures/cards/big/36630.jpg",
                 Description='Perfect!',
             ),
             Post(
-                nameOfPoster='Shoval',
                 nameOfLocation="`En Yorqe`am",
                 photoURL="https://cdn1.sipurderech.co.il/1200x800_fit_90/1403218722_121.jpeg",
                 Description='Really nice place',
@@ -44,6 +42,7 @@ class Migration(migrations.Migration):
 
             for user, body, post in test_data:
                 user.save()
+                post.user = user
                 post.save()
                 Comment(
                     user=user, body=body, post=post, label="Recommended", active=True

@@ -11,10 +11,12 @@ class TestProfile:
         for profile in profile_list:
             profiles_names.append(profile.user.username)
         assert profiles_names == [
-            ('Test-user-comments1'),
-            ('Test-user-comments2'),
             ('Test-user-profile3'),
             ('Test-user-profile4'),
+            ('Shoval'),
+            ('Daniel'),
+            ('Test-user-comments1'),
+            ('Test-user-comments2'),
         ]
 
     def test_profile_size(cls):

@@ -17,7 +17,9 @@ class PostListView(ListView):
 def CreateNewPost(request):
     form = CreatePostForm(request.POST)
     if form.is_valid():
-        form.save()
+        post = form.save(commit=False)
+        post.user = request.user
+        post.save()
         messages.success(request, 'The post has been created')
         return redirect('/postList/')
     else:
