@@ -130,6 +130,9 @@ class TestInvalidForms:
         form = UserRegistrationForm(data=UserRegistrationForm_data)
         assert not form.is_valid()
 
+        with pytest.raises(ValueError):
+            form.save()
+
     @pytest.mark.django_db
     def test_UserRegistrationForm_invalid_password_does_not_match(
         self, UserRegistrationForm_data
@@ -138,21 +141,29 @@ class TestInvalidForms:
         UserRegistrationForm_data['password2'] = 'second-password'
         form = UserRegistrationForm(data=UserRegistrationForm_data)
         assert not form.is_valid()
+        with pytest.raises(ValueError):
+            form.save()
 
     @pytest.mark.django_db
     def test_UserRegistrationForm_invalid_email(self, UserRegistrationForm_data):
         UserRegistrationForm_data['email'] = 'inavlid_email'
         form = UserRegistrationForm(data=UserRegistrationForm_data)
         assert not form.is_valid()
+        with pytest.raises(ValueError):
+            form.save()
 
     @pytest.mark.django_db
     def test_UserUpdateForm_invalid_email(self, UserUpdateForm_data):
         UserUpdateForm_data['email'] = 'inavlid_email'
         form = UserUpdateForm(data=UserUpdateForm_data)
         assert not form.is_valid()
+        with pytest.raises(ValueError):
+            form.save()
 
     @pytest.mark.django_db
     def test_ProfileUpdateForm_invalid_dob(self, ProfileUpdateForm_data):
         ProfileUpdateForm_data['dob'] = '1995-13-13'
         form = ProfileUpdateForm(data=ProfileUpdateForm_data)
         assert not form.is_valid()
+        with pytest.raises(ValueError):
+            form.save()
