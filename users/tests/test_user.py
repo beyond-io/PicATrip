@@ -1,7 +1,6 @@
 import pytest
 import uuid
 from django.contrib.auth.models import User
-from django.test import TestCase
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 
 
@@ -86,23 +85,74 @@ def test_update_user(client, django_user_model):
     assert client.email == 'update@mail.com'
 
 
-class TestForms(TestCase):
-    def test_UserRegistrationForm(self):
-        form_data = {
-            'username': 'username',
-            'email': 'Test@example.com',
-            'password1': 'test-password',
-            'password2': 'test-password',
-        }
-        form = UserRegistrationForm(data=form_data)
-        self.assertTrue(form.is_valid())
+@pytest.fixture
+def UserRegistrationForm_data():
+    return {
+        'username': 'username',
+        'email': 'Test@example.com',
+        'password1': 'test-password',
+        'password2': 'test-password',
+    }
 
-    def test_UserUpdateForm(self):
-        form_data = {'username': 'username', 'email': 'Test@example.com'}
-        form = UserUpdateForm(data=form_data)
-        self.assertTrue(form.is_valid())
 
-    def test_ProfileUpdateForm(self):
-        form_data = {'dob': '1995-04-08', 'image': 'profile_pics/profile_picture.jpg'}
-        form = ProfileUpdateForm(data=form_data)
-        self.assertTrue(form.is_valid())
+@pytest.fixture
+def UserUpdateForm_data():
+    return {'username': 'username', 'email': 'Test@example.com'}
+
+
+@pytest.fixture
+def ProfileUpdateForm_data():
+    return {'dob': '1995-04-08', 'image': 'profile_pics/profile_picture.jpg'}
+
+
+class TestForms:
+    @pytest.mark.django_db
+    def test_UserRegistrationForm(self, UserRegistrationForm_data):
+        form = UserRegistrationForm(data=UserRegistrationForm_data)
+        assert form.is_valid()
+
+    @pytest.mark.django_db
+    def test_UserUpdateForm(self, UserUpdateForm_data):
+        form = UserUpdateForm(data=UserUpdateForm_data)
+        assert form.is_valid()
+
+    @pytest.mark.django_db
+    def test_ProfileUpdateForm(self, ProfileUpdateForm_data):
+        form = ProfileUpdateForm(data=ProfileUpdateForm_data)
+        assert form.is_valid()
+
+
+class TestInvalidForms:
+    @pytest.mark.django_db
+    def test_UserRegistrationForm_invalid_password(self, UserRegistrationForm_data):
+        UserRegistrationForm_data['password1'] = 'password'
+        UserRegistrationForm_data['password2'] = 'password'
+        form = UserRegistrationForm(data=UserRegistrationForm_data)
+        assert not form.is_valid()
+
+    @pytest.mark.django_db
+    def test_UserRegistrationForm_invalid_password_does_not_match(
+        self, UserRegistrationForm_data
+    ):
+        UserRegistrationForm_data['password1'] = 'first-password'
+        UserRegistrationForm_data['password2'] = 'second-password'
+        form = UserRegistrationForm(data=UserRegistrationForm_data)
+        assert not form.is_valid()
+
+    @pytest.mark.django_db
+    def test_UserRegistrationForm_invalid_email(self, UserRegistrationForm_data):
+        UserRegistrationForm_data['email'] = 'inavlid_email'
+        form = UserRegistrationForm(data=UserRegistrationForm_data)
+        assert not form.is_valid()
+
+    @pytest.mark.django_db
+    def test_UserUpdateForm_invalid_email(self, UserUpdateForm_data):
+        UserUpdateForm_data['email'] = 'inavlid_email'
+        form = UserUpdateForm(data=UserUpdateForm_data)
+        assert not form.is_valid()
+
+    @pytest.mark.django_db
+    def test_ProfileUpdateForm_invalid_dob(self, ProfileUpdateForm_data):
+        ProfileUpdateForm_data['dob'] = '1995-13-13'
+        form = ProfileUpdateForm(data=ProfileUpdateForm_data)
+        assert not form.is_valid()
