@@ -1,8 +1,8 @@
 {% extends "pickATrip_django_apps/base.html"%}
 {% block content %}
+{% if posts %}
 <div class="album py-5 bg-light">
     <div class="container">
-
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 	{% for post in posts %}
 		<div class="col">
@@ -23,6 +23,7 @@
       </div>
     </div>
   </div>	
+  {% endif %}
 
 {% endblock content %}
 	
