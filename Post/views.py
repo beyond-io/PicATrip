@@ -1,10 +1,11 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView
 from commenting_system.forms import CommentForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from django.contrib.auth.decorators import login_required
 from .forms import CreatePostForm
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class PostListView(ListView):
@@ -27,6 +28,18 @@ def CreateNewPost(request):
     return render(
         request, 'Post/createPost.html', {'form': form, 'title': 'Create post'}
     )
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'Post/deletePost.html'
+    success_url = '/postList/'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.user:
+            return True
+        return False
 
 
 @login_required
