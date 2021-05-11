@@ -40,6 +40,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('postList/', include('Post.urls'), name='postList'),
     path('createPost/', post_views.CreateNewPost, name='createPost'),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

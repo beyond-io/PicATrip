@@ -8,12 +8,14 @@ flake8 = "*"
 pytest = "*"
 pytest-django = "*"
 black = "*"
+django-override-settings = "*"
 
 [packages]
 django = "*"
 django-crispy-forms = "*"
 pillow = "*"
 django-cleanup = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.8"

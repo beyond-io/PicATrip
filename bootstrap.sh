@@ -10,6 +10,9 @@ cd /vagrant
 # Install dependencies with Pipenv
 pipenv sync --dev
 
+#installing package for google fast signing
+pipenv install django-allauth
+
 # Run database migrations
 pipenv run python manage.py migrate
 
