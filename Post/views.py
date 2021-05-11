@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DeleteView
+from django.views.generic import ListView, UpdateView, DeleteView
 from commenting_system.forms import CommentForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreatePostForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class PostListView(ListView):
@@ -110,3 +111,22 @@ def get_post_by_query_text(query_text):
     return Post.objects.filter(
         nameOfLocation__icontains=query_text
     ) | Post.objects.filter(Description__icontains=query_text)
+
+
+class PostUpdateView(
+    LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView
+):
+    model = Post
+    template_name = 'Post/updatePost.html'
+    fields = ['nameOfLocation', 'photoURL', 'Description']
+    success_message = 'The post has been successfully updated!'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.user:
+            return True
+        return False

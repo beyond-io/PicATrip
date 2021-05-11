@@ -1,0 +1,14 @@
+{% extends "pickATrip_django_apps/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="content">
+	<legend class="border-bottom mb-4">Update your post:</legend>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form | crispy }}
+		<button class="btn btn-outline-info" type="submit">Post</button>
+	</form>
+</div>
+
+{% endblock content %}
