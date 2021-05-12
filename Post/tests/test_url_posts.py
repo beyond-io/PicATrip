@@ -5,6 +5,7 @@ from Post.views import (
     CreateNewPost,
     postListSearch,
     PostDeleteView,
+    PostUpdateView,
 )
 
 
@@ -28,3 +29,7 @@ class TestUrls:
     def test_deletePost_url_is_resolved(self):
         url = reverse('post_delete', args=[1])
         assert resolve(url).func.view_class == PostDeleteView
+
+    def test_updatePost_url_is_resolved(self):
+        url = reverse('post_update', args=[1])
+        assert resolve(url).func.view_class == PostUpdateView
