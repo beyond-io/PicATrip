@@ -1,5 +1,11 @@
 from django.urls import reverse, resolve
-from Post.views import PostListView, post_detail, CreateNewPost, postListSearch
+from Post.views import (
+    PostListView,
+    post_detail,
+    CreateNewPost,
+    postListSearch,
+    PostDeleteView,
+)
 
 
 class TestUrls:
@@ -18,3 +24,7 @@ class TestUrls:
     def test_searchPost_url_is_resovled(self):
         url = reverse('post_list_Search')
         assert resolve(url).func == postListSearch
+
+    def test_deletePost_url_is_resolved(self):
+        url = reverse('post_delete', args=[1])
+        assert resolve(url).func.view_class == PostDeleteView
