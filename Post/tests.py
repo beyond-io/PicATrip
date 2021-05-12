@@ -264,3 +264,75 @@ def test_failed_post_detail(client, create_user, create_post):
 def test_post_list(client):
     response = client.get(reverse('view posts'))
     assert response.resolver_match.func.__name__ == PostListView.as_view().__name__
+
+
+@pytest.mark.django_db
+def test_update_post(client):
+
+    new_user = User.objects.create_user(
+        username='Shovalo', email='Test10@gmail.com', password='password777'
+    )
+    new_user.save()
+
+    client.login(username='Shovalo', password='password777')
+
+    post = Post(
+        user=new_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.post(
+        reverse('post_update', kwargs={'pk': post.id}),
+        {
+            'nameOfLocation': 'Dead Sea',
+            'photoURL': 'www.test1.com',
+            'Description': 'Amazing!',
+        },
+    )
+
+    assert response.status_code == 302
+    # self.assertEqual(response.status_code, 302)
+
+    post.refresh_from_db()
+
+    assert post.nameOfLocation == 'Dead Sea'
+    assert post.photoURL == 'www.test1.com'
+    assert post.Description == 'Amazing!'
+
+
+@pytest.mark.django_db
+def test_failed_update_post(client):
+
+    new_user = User.objects.create_user(
+        username='Shovalo', email='Test10@gmail.com', password='password777'
+    )
+    new_user.save()
+
+    post = Post(
+        user=new_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    new_user1 = User.objects.create_user(
+        username='Shovssssso', email='Test10@gmail.com', password='password777'
+    )
+    new_user1.save()
+
+    client.login(username='Shovssssso', password='password777')
+
+    response = client.post(
+        reverse('post_update', kwargs={'pk': post.id}),
+        {
+            'nameOfLocation': 'Dead Sea',
+            'photoURL': 'www.test1.com',
+            'Description': 'Amazing!',
+        },
+    )
+
+    assert response.status_code == 403
