@@ -44,8 +44,6 @@ class Migration(migrations.Migration):
                 user.save()
                 post.user = user
                 post.save()
-                Comment(
-                    user=user, body=body, post=post, label="Recommended", active=True
-                ).save()
+                Comment(user=user, body=body, post=post, label="Recommended").save()
 
     operations = [migrations.RunPython(generate_data)]

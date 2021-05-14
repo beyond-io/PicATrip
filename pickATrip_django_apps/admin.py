@@ -6,10 +6,9 @@ from commenting_system.models import Comment
 # Customized model registration
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'body', 'created_on', 'label', 'post', 'active')
-    list_filter = ('active', 'created_on')
+    list_display = ('user', 'body', 'created_on', 'label', 'post')
+    list_filter = ('created_on', 'label')
     search_fields = ('username', 'body')
-    actions = ['approve_comments']
 
     def approve_comments(self, request, queryset):
         queryset.update(active=True)
