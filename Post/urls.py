@@ -20,4 +20,5 @@ urlpatterns = [
     path('', views.PostListView.as_view(), name='view posts'),
     # url on top of the relative path from the (localhost:8000/postlist)
     path('<int:post_id>/', views.post_detail, name='post_detail'),
+    path('search', views.postListSearch, name='post_list_Search'),
 ]

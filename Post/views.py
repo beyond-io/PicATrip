@@ -67,3 +67,21 @@ def post_detail(request, post_id):
             },
         },
     )
+
+
+def postListSearch(request):
+    if request.method == "GET":
+        query_text = request.GET.get('query_text')
+        posts_list = get_post_by_query_text(query_text)
+        if posts_list.count() == 0:
+            messages.error(
+                request,
+                f' There is no match for {query_text}',
+            )
+        return render(request, 'Post/postList.html', {"posts": posts_list})
+
+
+def get_post_by_query_text(query_text):
+    return Post.objects.filter(
+        nameOfLocation__icontains=query_text
+    ) | Post.objects.filter(Description__icontains=query_text)
