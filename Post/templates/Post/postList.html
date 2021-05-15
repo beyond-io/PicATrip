@@ -10,7 +10,7 @@
             <a href="{% url 'post_detail' post.id %}">
 		<img src= {{post.photoURL}} alt="photo of {{post.nameOfLocation}}" style="width:100%;height:300px;"></a>
             <div class="card-body">
-              <p class="card-text">{{post.Description}}</p>
+              <p class="card-text">{{post.Description|truncatewords:"8"}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-muted">{{post.nameOfLocation}}</small>
 				 <small class="text-muted">{{post.user.username}}</small>

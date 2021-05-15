@@ -38,6 +38,8 @@ def profile(request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
-    context = {'user_form': user_form, 'profile_form': profile_form}
-
-    return render(request, 'users/profile.html', context)
+    return render(
+        request,
+        'users/profile.html',
+        {'title': 'Profile', 'user_form': user_form, 'profile_form': profile_form},
+    )

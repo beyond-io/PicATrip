@@ -24,7 +24,9 @@ def CreateNewPost(request):
         return redirect('/postList/')
     else:
         form = CreatePostForm()
-    return render(request, 'Post/createPost.html', {'form': form})
+    return render(
+        request, 'Post/createPost.html', {'form': form, 'title': 'Create post'}
+    )
 
 
 @login_required
@@ -54,6 +56,7 @@ def post_detail(request, post_id):
         request,
         'Post/post_detail.html',
         {
+            'title': 'Post detail',
             'post': post,
             'comments': comments,
             'new_comment': new_comment,
