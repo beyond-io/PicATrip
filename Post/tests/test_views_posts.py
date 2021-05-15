@@ -15,11 +15,21 @@ class TestViews:
         "query_text, expected_output",
         [
             ("Sea", ["Dead Sea", "Sea of Galilee", "Eilat"]),
-            ("beautiful", ["Dead Sea", "Eilat"]),
+            ("beautiful", ["Dead Sea", "Eilat", "`En Yorqe`am"]),
             ("nice", ["`En Yorqe`am"]),
             ("place", ["`En Yorqe`am", "Eilat", "Dead Sea"]),
             ("Tal aviv", []),
-            ("", ["Dead Sea", "Sea of Galilee", "Eilat", "`En Yorqe`am"]),
+            (
+                "",
+                [
+                    "Dead Sea",
+                    "Sea of Galilee",
+                    "Eilat",
+                    "`En Yorqe`am",
+                    "En gedi",
+                    "Ramon Crater",
+                ],
+            ),
         ],
     )
     @pytest.mark.django_db
