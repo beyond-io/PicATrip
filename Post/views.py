@@ -32,7 +32,7 @@ def post_detail(request, post_id):
 
     post = get_object_or_404(Post, pk=post_id)
     # Using only the last 5 (approved) comments (at most- if exist)
-    comments = post.comments.filter(active=True).order_by("-created_on")[:5]
+    comments = post.comments.order_by("-created_on")[:5]
     new_comment = None
     # Comment posted
     if request.method == 'POST':

@@ -25,13 +25,9 @@ class Comment(models.Model):
     label = models.CharField(
         choices=Label.choices, max_length=20, blank=True, null=True
     )
-    active = models.BooleanField(default=False, null=False)
 
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
         return f'Comment {self.body} by {self.user.username} at {self.created_on} using label:{self.label}'
-
-    def approve(self):
-        self.active = True

@@ -82,21 +82,6 @@ def test_create_comment(parameters_list):
 
 
 @pytest.mark.django_db
-def test_comment_is_active_after_approving(parameters_list):
-    for user, post, body, label in parameters_list:
-        new_comment = Comment(user=user, post=post, body=body, label=label)
-        new_comment.approve()
-        assert new_comment.active is True
-
-
-@pytest.mark.django_db
-def test_comment_is_not_active_by_default(parameters_list):
-    for user, post, body, label in parameters_list:
-        new_comment = Comment(user=user, post=post, body=body, label=label)
-        assert new_comment.active is False
-
-
-@pytest.mark.django_db
 def test_add_comment(parameters_list):
     for user, post, body, label in parameters_list:
         post.save()
