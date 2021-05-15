@@ -5,8 +5,7 @@ from commenting_system.models import Comment
 from django.contrib.auth.models import User
 import pytest
 from django.urls import reverse
-from django.test import TestCase
-from Post.views import CreateNewPost, post_detail
+from Post.views import CreateNewPost, post_detail, PostListView
 
 
 @pytest.mark.django_db
@@ -154,92 +153,98 @@ def test_delete_post(client):
 
 
 @pytest.mark.django_db
-class CreatePostTest(TestCase):
-    def test_create_post(self):
-        Post.objects.all().delete()
+def test_create_post(client):
+    Post.objects.all().delete()
 
-        new_user = User.objects.create_user(
-            username='Roni', email='Test26@gmail.com', password='password2266'
-        )
-        new_user.save()
+    new_user = User.objects.create_user(
+        username='Roni', email='Test26@gmail.com', password='password2266'
+    )
+    new_user.save()
 
-        self.client.login(username='Roni', password='password2266')
+    client.login(username='Roni', password='password2266')
 
-        response = self.client.post(
-            reverse('createPost'),
-            {
-                'nameOfLocation': 'Dead Sea',
-                'photoURL': 'www.test123.com',
-                'Description': 'Amazing!',
-            },
-        )
+    response = client.post(
+        reverse('createPost'),
+        {
+            'nameOfLocation': 'Dead Sea',
+            'photoURL': 'www.test123.com',
+            'Description': 'Amazing!',
+        },
+    )
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/postList/')
+    assert response.status_code == 302
+    assert response.url == '/postList/'
 
-        post = Post.objects.all()
-        self.assertEqual(post[0].user, new_user)
-        self.assertEqual(post[0].nameOfLocation, 'Dead Sea')
-        self.assertEqual(post[0].photoURL, 'www.test123.com')
-        self.assertEqual(post[0].Description, 'Amazing!')
+    post = Post.objects.all()
+    assert post[0].user == new_user
+    assert post[0].nameOfLocation == 'Dead Sea'
+    assert post[0].photoURL == 'www.test123.com'
+    assert post[0].Description == 'Amazing!'
 
-        self.assertEqual(response.resolver_match.func, CreateNewPost)
-
-    def test_failed_create_post(self):
-
-        new_user = User.objects.create_user(
-            username='Roni', email='Test26@gmail.com', password='password2266'
-        )
-        new_user.save()
-        self.client.logout()
-
-        response = self.client.get(reverse('createPost'))
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/login/?next=/createPost/')
+    assert response.resolver_match.func == CreateNewPost
 
 
 @pytest.mark.django_db
-class ViewPostTest(TestCase):
-    def test_post_detail(self):
+def test_failed_create_post(client):
 
-        new_user = User.objects.create_user(
-            username='Roni', email='Test26@gmail.com', password='password2266'
-        )
-        new_user.save()
+    new_user = User.objects.create_user(
+        username='Roni', email='Test26@gmail.com', password='password2266'
+    )
+    new_user.save()
+    client.logout()
 
-        self.client.login(username='Roni', password='password2266')
+    response = client.get(reverse('createPost'))
 
-        post = Post(
-            user=new_user,
-            nameOfLocation='Israel',
-            photoURL='www.test.com',
-            Description='cool place',
-        )
-        post.save()
+    assert response.status_code == 302
+    assert response.url == '/login/?next=/createPost/'
 
-        response = self.client.get(reverse('post_detail', kwargs={'post_id': post.id}))
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.resolver_match.func, post_detail)
+@pytest.mark.django_db
+def test_post_detail(client):
 
-    def test_failed_post_detail(self):
-        Post.objects.all().delete()
+    new_user = User.objects.create_user(
+        username='Roni', email='Test26@gmail.com', password='password2266'
+    )
+    new_user.save()
 
-        new_user = User.objects.create_user(
-            username='Roni', email='Test26@gmail.com', password='password2266'
-        )
-        new_user.save()
+    client.login(username='Roni', password='password2266')
 
-        post = Post(
-            user=new_user,
-            nameOfLocation='Israel',
-            photoURL='www.test.com',
-            Description='cool place',
-        )
-        post.save()
+    post = Post(
+        user=new_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
 
-        response = self.client.get(reverse('post_detail', kwargs={'post_id': post.id}))
+    response = client.get(reverse('post_detail', kwargs={'post_id': post.id}))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, f'/login/?next=/postList/{post.id}/')
+    assert response.status_code == 200
+    assert response.resolver_match.func == post_detail
+
+
+@pytest.mark.django_db
+def test_failed_post_detail(client):
+    new_user = User.objects.create_user(
+        username='Roni', email='Test26@gmail.com', password='password2266'
+    )
+    new_user.save()
+
+    post = Post(
+        user=new_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.get(reverse('post_detail', kwargs={'post_id': post.id}))
+
+    assert response.status_code == 302
+    assert response.url == f'/login/?next=/postList/{post.id}/'
+
+
+@pytest.mark.django_db
+def test_post_list(client):
+    response = client.get(reverse('view posts'))
+    assert response.resolver_match.func.__name__ == PostListView.as_view().__name__
