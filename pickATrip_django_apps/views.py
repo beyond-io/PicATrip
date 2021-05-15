@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def homepage(request):
-    return render(request, 'pickATrip_django_apps/homepage.html', {'title': 'PicATrip'})
+    return redirect('view posts', permanent=True)
 
 
 def about(request):
