@@ -14,9 +14,9 @@ class TestProfile:
             ('Test-user-profile3'),
             ('Test-user-profile4'),
             ('Shoval'),
-            ('Daniel'),
-            ('Test-user-comments1'),
-            ('Test-user-comments2'),
+            ('Leead'),
+            ("Ma'ayan"),
+            ('Nadav'),
         ]
 
     def test_profile_size(cls):

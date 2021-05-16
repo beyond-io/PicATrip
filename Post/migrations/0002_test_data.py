@@ -13,28 +13,52 @@ class Migration(migrations.Migration):
 
         users_list = [
             User.objects.create_user('Shoval', 'Test10@gmail.com', 'password777'),
-            User.objects.create_user('Daniel', 'Test20@gmail.com', 'password777'),
+            User.objects.create_user('Leead', 'Test20@gmail.com', 'password777'),
         ]
+        users_list.append(users_list[0])
+        users_list.append(users_list[1])
+        post_Description_list = [
+            ('This is my favorite place! chill vibes and beautiful sea.'),
+            ('Beautiful place.'),
+            (
+                "En Gedi is the biggest oasis in Israel. It has springs and waterfalls,"
+                "and flowing brooks at the foot of the cliffs, home to ibexes and rock hyraxes."
+            ),
+            (
+                "Ramon Crater is the largest natural crater in the world,"
+                "it is 40 km (25 miles) long, 10 km (6.2 miles) wide and 500 meters (1640 ft) deep,"
+                "and is shaped like an elongated heart. In the picture is the Bereshit"
+                "Hotel, set on a cliff at the edge of the Ramon Crater in the Negev Desert."
+            ),
+        ]
+        photoURL_List = [
+            ("https://israel.travel/wp-content/uploads/2019/02/eilatnewinside-min.jpg"),
+            (
+                "https://velvetescape.com/wp-content/uploads/2011/11/IMG_2370-3-1280x920.jpg"
+            ),
+            (
+                "https://images.unsplash.com/photo-1464980704090-17359156b2f6?ixid="
+                "MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            ),
+            (
+                "https://israelforever.org/interact/blog/8.-Beresheet-Hotel-Mitzpe-Ramon-Israel-7-e1431897591414.jpg"
+            ),
+        ]
+        nameOfLocation_List = ['Eilat', 'Dead Sea', 'En gedi', 'Ramon Crater']
 
-        Post_list = [
-            Post(
-                nameOfLocation='Eilat',
-                photoURL="https://israel.travel/wp-content/uploads/2019/02/eilatnewinside-min.jpg",
-                Description='This is my favorite place! chill vibes and beautiful sea.',
-            ),
-            Post(
-                nameOfLocation='Dead Sea',
-                photoURL="https://velvetescape.com/wp-content/uploads/2011/11/IMG_2370-3-1280x920.jpg",
-                Description='Beautiful place.',
-            ),
-        ]
+        post_data = list(zip(nameOfLocation_List, photoURL_List, post_Description_list))
+        Post_list = []
+        for nameOfLocation, URL, description in post_data:
+            Post_list.append(
+                Post(
+                    nameOfLocation=nameOfLocation, photoURL=URL, Description=description
+                )
+            )
 
         test_data = list(zip(users_list, Post_list))
 
         with transaction.atomic():
-
             for user, post in test_data:
-                user.save()
                 post.user = user
                 post.save()
 

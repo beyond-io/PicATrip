@@ -16,7 +16,7 @@
 * A trip **search functionality** by areas
 * **Commenting functionality** for trips shared on the platform
 
-   **picATrip** allows users to have the opportunity to **contribute their trip experience** and thoughts by
+   **PicATrip** allows users to have the opportunity to **contribute their trip experience** and thoughts by
    **pic**king  a picture of a **trip** shared on the platform, and by that **learn about the trips**
    which stands behind the pictures, and having the opportunity to **share their thoughts** and **comment** if they desire.
 

@@ -13,26 +13,32 @@ class Migration(migrations.Migration):
         from commenting_system.models import Comment
 
         users_list = [
-            User.objects.create_user(
-                'Test-user-comments1', 'Test3@gmail.com', 'password777'
-            ),
-            User.objects.create_user(
-                'Test-user-comments2', 'Test4@gmail.com', 'password222'
-            ),
+            User.objects.create_user("Ma'ayan", 'Leead@gmail.com', 'password777'),
+            User.objects.create_user('Nadav', 'Nadav@gmail.com', 'password222'),
         ]
 
-        body_comments_list = [('First comment test'), ('Second comment test')]
+        body_comments_list = [
+            (
+                "Gorgeous views and calm waters. We took a short cruise here, complete with praise music"
+                "and refreshments. This made for a refreshing stop made perfect by the warm sun and cool breeze."
+                "Check beforehand to insure against inclement weather."
+            ),
+            (
+                "Very nice chilling pool, but can be pretty much crowded on sunny days,"
+                "as it is just a few hundred meters from parking - easy access."
+            ),
+        ]
 
         Post_list = [
             Post(
                 nameOfLocation='Sea of Galilee',
                 photoURL="https://www.shappo.co.il/Resize_Image.aspx?maxsize=400&img=/pictures/cards/big/36630.jpg",
-                Description='Perfect!',
+                Description='It is the lowest freshwater lake on Earth and the second-lowest lake in the world',
             ),
             Post(
                 nameOfLocation="`En Yorqe`am",
                 photoURL="https://cdn1.sipurderech.co.il/1200x800_fit_90/1403218722_121.jpeg",
-                Description='Really nice place',
+                Description='Beautiful spot with cool water',
             ),
         ]
 
