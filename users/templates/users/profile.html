@@ -1,24 +1,56 @@
 {% extends "pickATrip_django_apps/base.html"%}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-		<img src="{{ user.profile.image.url }}" class="rounded" alt="Cinque Terre">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25"> <img src="{{ user.profile.image.url }}" class="img-fluid img-thumbnail" alt="User-Profile-Image"> </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <h4 class="m-b-20 p-b-5 b-b-default f-w-600">{{ user.username }}</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h6 class="text-muted f-w-400">{{ user.email }}</h6>
+                                    </div>
+
+                                </div>
+								<div class="row">
+								{% if user.profile.dob %}							
+                                    <div class="col-sm-6">
+                                        <h6 class="text-muted f-w-400">{{ user.profile.dob }}</h6>
+                                    </div>									
+								{% endif %}
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				    <div class="content-section">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<fieldset class="form-group">
+					<legend class="border-bottom mb-4">Update Profile</legend>
+						{{ user_form|crispy }}
+						{{ profile_form|crispy }}
+			</fieldset>
+				<div class="form-group">
+					<button class="btn btn-outline-info" type="submit">Update</button>
+				</div>
+		</form>
+	</div>
+            </div>
         </div>
-      </div>
-      <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <fieldset class="form-group">
-              <legend class="border-bottom mb-4">Profile Info</legend>
-              {{ user_form|crispy }}
-              {{ profile_form|crispy }}
-          </fieldset>
-          <div class="form-group">
-              <button class="btn btn-outline-info" type="submit">Update</button>
-          </div>
-      </form>
     </div>
+</div>
+
 {% endblock content %}
+
+
+
