@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Post(models.Model):
@@ -13,6 +14,7 @@ class Post(models.Model):
     nameOfLocation = models.CharField(max_length=100)
     photoURL = models.TextField()
     Description = models.TextField()
+    date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.user.username} traveled {self.nameOfLocation} and wrote: {self.Description}'
