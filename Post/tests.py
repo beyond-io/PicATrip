@@ -11,8 +11,7 @@ from Post.views import CreateNewPost, post_detail, PostListView
 @pytest.mark.django_db
 def test_post_str(post):
 
-    post.save()
-    assert str(post) == "Shovalo traveled The Dead Sea and wrote: beautiful place"
+    assert str(post) == "Gad traveled The Dead Sea and wrote: beautiful place"
 
 
 @pytest.mark.django_db
@@ -67,14 +66,11 @@ def test_post_comments():
 
 
 @pytest.fixture
-def post():
-    new_user = User.objects.create_user(
-        username='Shovalo', email='Test10@gmail.com', password='password777'
-    )
-    new_user.save()
+def post(create_user, create_post):
 
-    return Post(
-        user=new_user,
+    user = create_user(username='Gad', email='password1234', password='Gad@mail.com')
+    return create_post(
+        user=user,
         nameOfLocation='The Dead Sea',
         photoURL='www.testPost.com',
         Description='beautiful place',
@@ -97,23 +93,47 @@ def form():
     )
 
 
+@pytest.fixture()
+def create_user():
+    def _create_user(**kwards):
+        new_user = User.objects.create_user(
+            username=kwards["username"],
+            email=kwards["email"],
+            password=kwards["password"],
+        )
+        return new_user
+
+    return _create_user
+
+
+@pytest.fixture()
+def create_post():
+    def _create_post(**kwards):
+        new_post = Post(
+            user=kwards["user"],
+            nameOfLocation=kwards["nameOfLocation"],
+            photoURL=kwards["photoURL"],
+            Description=kwards["Description"],
+        )
+        return new_post
+
+    return _create_post
+
+
 @pytest.mark.django_db
-def test_failed_delete_post(client):
+def test_failed_delete_post(client, create_user, create_post):
 
-    user1 = User.objects.create_user(
-        username='Gad', email='Test22@gmail.com', password='password2222'
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
     )
-    user1.save()
-
-    user2 = User.objects.create_user(
-        username='Nevo', email='Test23@gmail.com', password='password2233'
+    second_user = create_user(
+        username='Nevo', email='Nevo@mail.com', password='password5678'
     )
-    user2.save()
 
-    client.login(username='Nevo', password='password2233')
+    client.login(username=second_user.username, password='password5678')
 
-    post = Post(
-        user=user1,
+    post = create_post(
+        user=first_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
         Description='cool place',
@@ -128,17 +148,15 @@ def test_failed_delete_post(client):
 
 
 @pytest.mark.django_db
-def test_delete_post(client):
+def test_delete_post(client, create_user, create_post):
 
-    user3 = User.objects.create_user(
-        username='Amit', email='Test24@gmail.com', password='password2244'
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
     )
-    user3.save()
+    client.login(username='Gad', password='password1234')
 
-    client.login(username='Amit', password='password2244')
-
-    post = Post(
-        user=user3,
+    post = create_post(
+        user=first_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
         Description='cool place',
@@ -153,15 +171,14 @@ def test_delete_post(client):
 
 
 @pytest.mark.django_db
-def test_create_post(client):
+def test_create_post(client, create_user):
     Post.objects.all().delete()
 
-    new_user = User.objects.create_user(
-        username='Roni', email='Test26@gmail.com', password='password2266'
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
     )
-    new_user.save()
 
-    client.login(username='Roni', password='password2266')
+    client.login(username='Gad', password='password1234')
 
     response = client.post(
         reverse('createPost'),
@@ -176,7 +193,7 @@ def test_create_post(client):
     assert response.url == '/postList/'
 
     post = Post.objects.all()
-    assert post[0].user == new_user
+    assert post[0].user == first_user
     assert post[0].nameOfLocation == 'Dead Sea'
     assert post[0].photoURL == 'www.test123.com'
     assert post[0].Description == 'Amazing!'
@@ -185,12 +202,13 @@ def test_create_post(client):
 
 
 @pytest.mark.django_db
-def test_failed_create_post(client):
+def test_failed_create_post(client, create_user):
 
-    new_user = User.objects.create_user(
-        username='Roni', email='Test26@gmail.com', password='password2266'
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
     )
-    new_user.save()
+    first_user.save()
+
     client.logout()
 
     response = client.get(reverse('createPost'))
@@ -200,17 +218,15 @@ def test_failed_create_post(client):
 
 
 @pytest.mark.django_db
-def test_post_detail(client):
+def test_post_detail(client, create_user, create_post):
 
-    new_user = User.objects.create_user(
-        username='Roni', email='Test26@gmail.com', password='password2266'
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
     )
-    new_user.save()
+    client.login(username='Gad', password='password1234')
 
-    client.login(username='Roni', password='password2266')
-
-    post = Post(
-        user=new_user,
+    post = create_post(
+        user=first_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
         Description='cool place',
@@ -224,14 +240,14 @@ def test_post_detail(client):
 
 
 @pytest.mark.django_db
-def test_failed_post_detail(client):
-    new_user = User.objects.create_user(
-        username='Roni', email='Test26@gmail.com', password='password2266'
-    )
-    new_user.save()
+def test_failed_post_detail(client, create_user, create_post):
 
-    post = Post(
-        user=new_user,
+    first_user = create_user(
+        username='Gad', email='Gad@mail.com', password='password1234'
+    )
+
+    post = create_post(
+        user=first_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
         Description='cool place',
