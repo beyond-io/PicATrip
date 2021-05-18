@@ -93,33 +93,6 @@ def form():
     )
 
 
-@pytest.fixture()
-def create_user():
-    def _create_user(**kwards):
-        new_user = User.objects.create_user(
-            username=kwards["username"],
-            email=kwards["email"],
-            password=kwards["password"],
-        )
-        return new_user
-
-    return _create_user
-
-
-@pytest.fixture()
-def create_post():
-    def _create_post(**kwards):
-        new_post = Post(
-            user=kwards["user"],
-            nameOfLocation=kwards["nameOfLocation"],
-            photoURL=kwards["photoURL"],
-            Description=kwards["Description"],
-        )
-        return new_post
-
-    return _create_post
-
-
 @pytest.mark.django_db
 def test_failed_delete_post(client, create_user, create_post):
 
@@ -267,16 +240,14 @@ def test_post_list(client):
 
 
 @pytest.mark.django_db
-def test_update_post(client):
+def test_update_post(client, create_user, create_post):
 
-    new_user = User.objects.create_user(
+    new_user = create_user(
         username='Shovalo', email='Test10@gmail.com', password='password777'
     )
-    new_user.save()
-
     client.login(username='Shovalo', password='password777')
 
-    post = Post(
+    post = create_post(
         user=new_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
@@ -294,7 +265,6 @@ def test_update_post(client):
     )
 
     assert response.status_code == 302
-    # self.assertEqual(response.status_code, 302)
 
     post.refresh_from_db()
 
@@ -304,27 +274,25 @@ def test_update_post(client):
 
 
 @pytest.mark.django_db
-def test_failed_update_post(client):
+def test_failed_update_post(client, create_user, create_post):
 
-    new_user = User.objects.create_user(
+    first_user = create_user(
         username='Shovalo', email='Test10@gmail.com', password='password777'
     )
-    new_user.save()
+    second_user = create_user(
+        username='Dvir', email='Dvir@gmail.com', password='password777'
+    )
+    second_user.save()
 
-    post = Post(
-        user=new_user,
+    client.login(username='Dvir', password='password777')
+
+    post = create_post(
+        user=first_user,
         nameOfLocation='Israel',
         photoURL='www.test.com',
         Description='cool place',
     )
     post.save()
-
-    new_user1 = User.objects.create_user(
-        username='Shovssssso', email='Test10@gmail.com', password='password777'
-    )
-    new_user1.save()
-
-    client.login(username='Shovssssso', password='password777')
 
     response = client.post(
         reverse('post_update', kwargs={'pk': post.id}),

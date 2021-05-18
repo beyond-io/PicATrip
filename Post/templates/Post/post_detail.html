@@ -27,6 +27,7 @@
                     <p> {{post.Description}}  <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                 </div>
                 {% if post.user == user %}
+					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post_update' post.id %}">Update</a>
 					<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post_delete' post.id %}">Delete</a>
 				{% endif %}
                 <div class="reaction">

@@ -120,13 +120,12 @@ class PostUpdateView(
     template_name = 'Post/updatePost.html'
     fields = ['nameOfLocation', 'photoURL', 'Description']
     success_message = 'The post has been successfully updated!'
+    success_url = '/postList/'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
-        post = self.get_object()
-        if self.request.user == post.user:
-            return True
-        return False
+        obj = self.get_object()
+        return obj.user == self.request.user
