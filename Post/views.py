@@ -61,6 +61,7 @@ def post_detail(request, post_id):
             new_comment.post = post
             # Save the comment to the database
             new_comment.save()
+            comment_form = CommentForm()
         else:
             comment_form = CommentForm()
     else:
@@ -80,6 +81,13 @@ def post_detail(request, post_id):
                 "Crowded": "bg-warning",
                 "Chance to meet": "bg-primary",
                 "Want to go": "bg-info",
+            },
+            'label_to_post_comments_count': {
+                "Recommended": post.comments.filter(label="Recommended").count(),
+                "Quiet": post.comments.filter(label="Quiet").count(),
+                "Crowded": post.comments.filter(label="Crowded").count(),
+                "Chance to meet": post.comments.filter(label="Chance to meet").count(),
+                "Want to go": post.comments.filter(label="Want to go").count(),
             },
         },
     )
