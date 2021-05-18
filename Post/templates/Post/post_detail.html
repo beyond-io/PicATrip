@@ -2,52 +2,82 @@
 {% block content %}
 {% load post_extra %}
 {% load crispy_forms_tags %}
+<!-------------------------------------------------------------------------------------------------------------------->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<!------ Include the above in your HEAD tag ---------->
+
 <div class="container">
     <div class="row">
-        <div class="col-md-8 card mb4 mt3 left top">
-            <div class="card-body">
-				<h1>{{post.nameOfLocation}}</h1>
-				<img src= {{post.photoURL}} alt="photo of {{post.nameOfLocation}}" style="width:300px;height:300px;">
-				<p>Author: {{post.user.username}}</p>
-				{% if post.user == user %}
+        <div class="col-md-8">
+            <div class="post-content">
+                <figure class="figure">
+                    <figcaption class="figure-caption"><h2>{{post.nameOfLocation}}</h2></figcaption>
+              <img src="{{post.photoURL}}" alt="photo of {{post.nameOfLocation}}" class="figure-img img-responsive post-image" style="max-height: 700px; max-width: 700px;">
+                </figure>
+                  <div class="user-info">
+                      <figcaption class="figure-caption">
+                          <strong> Published by </strong>
+                      </figcaption>
+                       <h3>{{post.user.username}}</h3>
+                      <img src="{{post.user.profile.image.url}}" alt="user" class="img-responsive img-rounded, img-fluid rounded-circle "
+                   style="max-height: 100px; max-width: 100px;">
+                  </div>
+                <div class="post-text">
+                    <p> {{post.Description}}  <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                </div>
+                {% if post.user == user %}
 					<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post_delete' post.id %}">Delete</a>
 				{% endif %}
-				<p>Description: {{post.Description}} </p>
-            </div>
-        </div>
-
-        <div class="colmd-8 card mb-4 mt-3 ">
-            <div class="card-body">
-                <!-- comments -->
-                <h2> {{ comments.count }} comments</h2>
-
-                {% for comment in comments %}
-                <div class="comments" style="padding: 10px;">
-                <p class="font-weight-bold">
-                    {{ comment.user.username }}
-                    <span class=" text-muted font-weight-normal">
-                        {{ comment.created_on }}
-                    </span>
-                    <br></br>
-                    {% if comment.label %}
-                    <span class=" badge rounded-pill {{ label_to_badge_type| get_item:comment.label }}" text-wrap style="width: 6rem;">
-                        {{ comment.label }}
-                    </span>
+                <div class="reaction">
+                    {% for label, badge in label_to_badge_type.items %}
+                    {% if label %}
+                      <span class=" badge rounded-pill {{ label_to_badge_type| get_item:label }} " style="width: 8rem; max-height: 50px">
+                          {{label}}
+                          {{ label_to_post_comments_count| get_item:label }}
+                      </span>
                     {% endif %}
-                </p>
-                {{ comment.body | linebreaks }}
+                    {% endfor %}
+                </div>
+
+                    {% if comments.count %}
+                <div class="ml-4"><h5><strong>Latest Comments</strong></h5></div>
+                    {% else %}
+                  <div class="ml-4"><h5><strong>No Comments yet</strong></h5></div>
+                    {% endif %}
+                  <div class="post-comment, col ml-4">
+                      {% for comment in comments %}
+                      <div class="line-divider"><hr></div>
+                      <img src="{{comment.user.profile.image.url}}" alt="user" class="img-responsive img-rounded, img-fluid rounded-circle "
+                      style="max-height: 75px; max-width: 75px;">
+                      <br><strong>{{ comment.user.username }}</strong></br>
+                      <span class=" text-muted font-weight-normal">
+                      {{ comment.created_on }}
+                      </span>
+                      {% if comment.label %}
+                      <span class=" badge rounded-pill {{ label_to_badge_type| get_item:comment.label }} text-wrap" style="width: 6rem;">
+                          {{ comment.label }}
+                      </span>
+                      {% endif %}
+                      <p> {{ comment.body | linebreaks }} </p>
+                      {% endfor %}
+                  </div>
+                        <form  method="POST">
+                            {% csrf_token %}
+                            <div class="form-group sm-10 ml-4" id="addComment" title="Add a Comment">
+                                {{ comment_form.body | as_crispy_field}}
+                            </div>
+                            <div class="form-group ml-4 ">
+                                {{ comment_form.label | as_crispy_field }}
+                            </div>
+                            <div class="form-group ml-4" title="Choose a Label">
+                               <button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="fa fa-send-o"></span> Submit comment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
             </div>
-            {% endfor %}
-            </div>
-        </div>
-        <div class="col-md-8 card mb-4 mt-3 ">
-            <div class="card-body">
-                <h2>Leave a comment</h2>
-                <form method="POST" style="margin-top: 1.3em;">
-                    {% csrf_token %}
-                    {{ comment_form | crispy }}
-                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-                </form>
             </div>
         </div>
     </div>
