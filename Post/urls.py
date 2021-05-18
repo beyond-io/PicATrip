@@ -21,4 +21,5 @@ urlpatterns = [
     # url on top of the relative path from the (localhost:8000/postlist)
     path('<int:post_id>/', views.post_detail, name='post_detail'),
     path('search', views.postListSearch, name='post_list_Search'),
+    path('<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
 ]

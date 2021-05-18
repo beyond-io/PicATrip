@@ -4,6 +4,7 @@ from django.db.models.query import QuerySet
 from commenting_system.models import Comment
 from django.contrib.auth.models import User
 import pytest
+from django.urls import reverse
 
 
 @pytest.mark.django_db
@@ -93,3 +94,58 @@ def form():
             'Description': description,
         }
     )
+
+
+@pytest.mark.django_db
+def test_failed_delete_post(client):
+
+    user1 = User.objects.create_user(
+        username='Gad', email='Test22@gmail.com', password='password2222'
+    )
+    user1.save()
+
+    user2 = User.objects.create_user(
+        username='Nevo', email='Test23@gmail.com', password='password2233'
+    )
+    user2.save()
+
+    client.login(username='Nevo', password='password2233')
+
+    post = Post(
+        user=user1,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.post(
+        reverse('post_delete', kwargs={'pk': post.id}),
+    )
+
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_delete_post(client):
+
+    user3 = User.objects.create_user(
+        username='Amit', email='Test24@gmail.com', password='password2244'
+    )
+    user3.save()
+
+    client.login(username='Amit', password='password2244')
+
+    post = Post(
+        user=user3,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.post(
+        reverse('post_delete', kwargs={'pk': post.id}),
+    )
+
+    assert response.status_code == 302
