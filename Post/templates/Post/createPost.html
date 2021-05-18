@@ -3,12 +3,14 @@
 {% load crispy_forms_tags %}
 
 <div class="content">
-	<legend class="border-bottom mb-4">Add a post:</legend>
-	<form method="POST">
-		{% csrf_token %}
-		{{ form | crispy }}
-		<input type="submit" value="Post">
-	</form>
+	<div class="col-lg-6 col-md-12">
+		<legend class="border-bottom mb-4">Create post</legend>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form | crispy }}
+			<input type="submit" value="Post">
+		</form>
+	<div class="col-lg-6 col-md-12">
 </div>
 
 {% endblock content %}
