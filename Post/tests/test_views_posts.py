@@ -50,6 +50,50 @@ class TestViews:
         assert all(post not in response.content for post in posts_not_found)
 
     @pytest.mark.django_db
+    def test_post_detail_GET(self, client):
+        user = User.objects.create_user(
+            username='Amit', email='Test24@gmail.com', password='password2244'
+        )
+        user.save()
+        client.login(username='Amit', password='password2244')
+
+        post = Post(
+            user=user,
+            nameOfLocation='Israel',
+            photoURL='www.test.com',
+            Description='cool place',
+        )
+        post.save()
+
+        response = client.get(
+            reverse('post_detail', kwargs={'post_id': post.id}),
+        )
+
+        assert response.status_code == 200
+        assertTemplateUsed(response, 'Post/post_detail.html')
+
+    @pytest.mark.django_db
+    def test_post_create_GET(self, client):
+        user = User.objects.create_user(
+            username='David', email='Test25@gmail.com', password='password2255'
+        )
+        user.save()
+        client.login(username='David', password='password2255')
+
+        post = Post(
+            user=user,
+            nameOfLocation='Israel',
+            photoURL='www.test.com',
+            Description='cool place',
+        )
+        post.save()
+
+        response = client.get(reverse('createPost'))
+
+        assert response.status_code == 200
+        assertTemplateUsed(response, 'Post/createPost.html')
+
+    @pytest.mark.django_db
     def test_delete_post_GET(self, client):
 
         user = User.objects.create_user(
