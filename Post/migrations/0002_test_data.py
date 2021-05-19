@@ -12,21 +12,35 @@ class Migration(migrations.Migration):
         from Post.models import Post
 
         users_list = [
-            User.objects.create_user('Shoval', 'Test10@gmail.com', 'password777'),
-            User.objects.create_user('Leead', 'Test20@gmail.com', 'password777'),
+            User.objects.create_user('Shoval', 'shoval@gmail.com', 'password777'),
+            User.objects.create_user('Leead', 'Leead@gmail.com', 'password777'),
         ]
+        profile_picture_list = [
+            'profile_pics/profile_female.png',
+            'profile_pics/avatar.jpg',
+        ]
+        users_profiles = list(zip(users_list, profile_picture_list))
+        for user, image in users_profiles:
+            user.profile.image = image
+            user.profile.save()
+
         users_list.append(users_list[0])
         users_list.append(users_list[1])
+
         post_Description_list = [
             ('This is my favorite place! chill vibes and beautiful sea.'),
-            ('Beautiful place.'),
             (
-                "En Gedi is the biggest oasis in Israel. It has springs and waterfalls,"
+                "Great sunsets and sunrises with views of the West Bank"
+                "and the mountain range of the East Bank and Oaisis on the mountains slopes"
+                "... breathtaking views and a very high level of Oxygen too. Beautiful place."
+            ),
+            (
+                "En Gedi is the biggest oasis in Israel. It has springs and waterfalls, "
                 "and flowing brooks at the foot of the cliffs, home to ibexes and rock hyraxes."
             ),
             (
-                "Ramon Crater is the largest natural crater in the world,"
-                "it is 40 km (25 miles) long, 10 km (6.2 miles) wide and 500 meters (1640 ft) deep,"
+                "Ramon Crater is the largest natural crater in the world, "
+                "it is 40 km (25 miles) long, 10 km (6.2 miles) wide and 500 meters (1640 ft) deep, "
                 "and is shaped like an elongated heart. In the picture is the Bereshit"
                 "Hotel, set on a cliff at the edge of the Ramon Crater in the Negev Desert."
             ),
