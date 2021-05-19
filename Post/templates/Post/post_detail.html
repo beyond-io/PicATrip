@@ -23,7 +23,10 @@
                       <img src="{{post.user.profile.image.url}}" alt="user" class="img-responsive img-rounded, img-fluid rounded-circle "
                    style="max-height: 100px; max-width: 100px;">
                   </div>
-                <div class="post-text">
+			    <span class=" text-muted font-weight-normal">
+                      {{ post.date_posted }}
+                      </span>
+				<div class="date-text">
                     <p> {{post.Description}}  <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                 </div>
                 {% if post.user == user %}
