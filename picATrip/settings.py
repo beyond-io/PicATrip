@@ -18,7 +18,6 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -29,7 +28,6 @@ SECRET_KEY = '3no^(8q!tct-smuo0d_q6esm16(wm-v%7(k&uvf%7!)u01^(1*'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -78,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'picATrip.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -88,7 +85,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -108,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -121,7 +116,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -141,3 +135,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+INSTALLED_APPS += ('tz_detect',)
+
+MIDDLEWARE += ('tz_detect.middleware.TimezoneMiddleware',)
+
+# TZ_DETECT_COUNTRIES =('IL')
