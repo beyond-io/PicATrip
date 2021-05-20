@@ -93,33 +93,6 @@ def form():
     )
 
 
-@pytest.fixture()
-def create_user():
-    def _create_user(**kwards):
-        new_user = User.objects.create_user(
-            username=kwards["username"],
-            email=kwards["email"],
-            password=kwards["password"],
-        )
-        return new_user
-
-    return _create_user
-
-
-@pytest.fixture()
-def create_post():
-    def _create_post(**kwards):
-        new_post = Post(
-            user=kwards["user"],
-            nameOfLocation=kwards["nameOfLocation"],
-            photoURL=kwards["photoURL"],
-            Description=kwards["Description"],
-        )
-        return new_post
-
-    return _create_post
-
-
 @pytest.mark.django_db
 def test_failed_delete_post(client, create_user, create_post):
 
@@ -264,3 +237,70 @@ def test_failed_post_detail(client, create_user, create_post):
 def test_post_list(client):
     response = client.get(reverse('view posts'))
     assert response.resolver_match.func.__name__ == PostListView.as_view().__name__
+
+
+@pytest.mark.django_db
+def test_update_post(client, create_user, create_post):
+
+    new_user = create_user(
+        username='Shovalo', email='Test10@gmail.com', password='password777'
+    )
+    client.login(username='Shovalo', password='password777')
+
+    post = create_post(
+        user=new_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.post(
+        reverse('post_update', kwargs={'pk': post.id}),
+        {
+            'nameOfLocation': 'Dead Sea',
+            'photoURL': 'www.test1.com',
+            'Description': 'Amazing!',
+        },
+    )
+
+    assert response.status_code == 302
+
+    post.refresh_from_db()
+
+    assert post.nameOfLocation == 'Dead Sea'
+    assert post.photoURL == 'www.test1.com'
+    assert post.Description == 'Amazing!'
+
+
+@pytest.mark.django_db
+def test_failed_update_post(client, create_user, create_post):
+
+    first_user = create_user(
+        username='Shovalo', email='Test10@gmail.com', password='password777'
+    )
+    second_user = create_user(
+        username='Dvir', email='Dvir@gmail.com', password='password777'
+    )
+    second_user.save()
+
+    client.login(username='Dvir', password='password777')
+
+    post = create_post(
+        user=first_user,
+        nameOfLocation='Israel',
+        photoURL='www.test.com',
+        Description='cool place',
+    )
+    post.save()
+
+    response = client.post(
+        reverse('post_update', kwargs={'pk': post.id}),
+        {
+            'nameOfLocation': 'Dead Sea',
+            'photoURL': 'www.test1.com',
+            'Description': 'Amazing!',
+        },
+    )
+
+    assert response.status_code == 403

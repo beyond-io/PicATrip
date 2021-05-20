@@ -2,8 +2,6 @@ from django.urls import reverse
 import pytest
 from pytest_django.asserts import assertTemplateUsed
 from Post.views import get_post_by_query_text
-from django.contrib.auth.models import User
-from Post.models import Post
 
 
 class TestViews:
@@ -50,14 +48,14 @@ class TestViews:
         assert all(post not in response.content for post in posts_not_found)
 
     @pytest.mark.django_db
-    def test_post_detail_GET(self, client):
-        user = User.objects.create_user(
+    def test_post_detail_GET(self, client, create_post, create_user):
+        user = create_user(
             username='Amit', email='Test24@gmail.com', password='password2244'
         )
         user.save()
         client.login(username='Amit', password='password2244')
 
-        post = Post(
+        post = create_post(
             user=user,
             nameOfLocation='Israel',
             photoURL='www.test.com',
@@ -73,14 +71,14 @@ class TestViews:
         assertTemplateUsed(response, 'Post/post_detail.html')
 
     @pytest.mark.django_db
-    def test_post_create_GET(self, client):
-        user = User.objects.create_user(
+    def test_post_create_GET(self, client, create_post, create_user):
+        user = create_user(
             username='David', email='Test25@gmail.com', password='password2255'
         )
         user.save()
         client.login(username='David', password='password2255')
 
-        post = Post(
+        post = create_post(
             user=user,
             nameOfLocation='Israel',
             photoURL='www.test.com',
@@ -94,15 +92,15 @@ class TestViews:
         assertTemplateUsed(response, 'Post/createPost.html')
 
     @pytest.mark.django_db
-    def test_delete_post_GET(self, client):
+    def test_delete_post_GET(self, client, create_post, create_user):
 
-        user = User.objects.create_user(
+        user = create_user(
             username='Amit', email='Test24@gmail.com', password='password2244'
         )
         user.save()
         client.login(username='Amit', password='password2244')
 
-        post = Post(
+        post = create_post(
             user=user,
             nameOfLocation='Israel',
             photoURL='www.test.com',
@@ -115,3 +113,26 @@ class TestViews:
         )
 
         assertTemplateUsed(url, 'Post/deletePost.html')
+
+    @pytest.mark.django_db
+    def test_update_post_GET(self, client, create_post, create_user):
+
+        user = create_user(
+            username='Amit', email='Test24@gmail.com', password='password2244'
+        )
+        user.save()
+        client.login(username='Amit', password='password2244')
+
+        post = create_post(
+            user=user,
+            nameOfLocation='Israel',
+            photoURL='www.test.com',
+            Description='cool place',
+        )
+        post.save()
+
+        url = client.get(
+            reverse('post_update', kwargs={'pk': post.id}),
+        )
+
+        assertTemplateUsed(url, 'Post/updatePost.html')
