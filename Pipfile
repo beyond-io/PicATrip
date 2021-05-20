@@ -9,6 +9,7 @@ pytest = "*"
 pytest-django = "*"
 black = "*"
 mock = "*"
+django-tz-detect = "*"
 
 [packages]
 django = "*"
