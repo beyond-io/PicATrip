@@ -1,7 +1,7 @@
 ![GitHub forks](https://img.shields.io/github/forks/beyond-io/picATrip?style=social) ![GitHub issues](https://img.shields.io/github/issues-raw/beyond-io/picATrip?logo=GitHub) ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/beyond-io/picATrip?logo=GitHub) ![GitHub top language](https://img.shields.io/github/languages/top/beyond-io/picATrip)
 [![Black](https://github.com/beyond-io/PicATrip/actions/workflows/black.yml/badge.svg)](https://github.com/beyond-io/PicATrip/actions/workflows/black.yml)
 [![Flake8](https://github.com/beyond-io/PicATrip/actions/workflows/flake8.yml/badge.svg)](https://github.com/beyond-io/PicATrip/actions/workflows/flake8.yml)
-# picATrip
+# PicATrip
 ![logo- picATrip](https://user-images.githubusercontent.com/48455448/110465508-26ae0a80-80dd-11eb-8268-586b26a1e59e.png)
 
 ### **Who are we?**
